@@ -1,0 +1,106 @@
+---
+title: "Laboratorio 1 DW"
+output: github_document
+---
+
+## Problema 1
+
+Ha sido contratado para trabajar en una consultoría a una embotelladora nacional. La
+embotelladora se encarga de distribuir su producto a distintos clientes, utilizando diferentes
+equipos de transporte y pilotos.
+
+### Paquetes a utilizar
+
+```{r}
+library(readxl)
+library(dplyr)
+library(xlsx)
+library(readr)
+```
+
+### Cargar datasets
+
+```{r}
+X01_2018 <- read_excel("01-2018.xlsx")
+X02_2018 <- read_excel("02-2018.xlsx")
+X03_2018 <- read_excel("03-2018.xlsx")
+X04_2018 <- read_excel("04-2018.xlsx")
+X05_2018 <- read_excel("05-2018.xlsx")
+X06_2018 <- read_excel("06-2018.xlsx")
+X07_2018 <- read_excel("07-2018.xlsx")
+X08_2018 <- read_excel("08-2018.xlsx")
+X09_2018 <- read_excel("09-2018.xlsx")
+X10_2018 <- read_excel("10-2018.xlsx")
+X11_2018 <- read_excel("11-2018.xlsx")
+
+```
+
+### Agregar columna de fecha para cada mes del año 2018
+
+```{r}
+X01_2018$Fecha <- as.Date("01-01-2018",format="%d-%m-%Y")
+X02_2018$Fecha <- as.Date("01-02-2018",format="%d-%m-%Y")
+X03_2018$Fecha <- as.Date("01-03-2018",format="%d-%m-%Y")
+X04_2018$Fecha <- as.Date("01-04-2018",format="%d-%m-%Y")
+X05_2018$Fecha <- as.Date("01-05-2018",format="%d-%m-%Y")
+X06_2018$Fecha <- as.Date("01-06-2018",format="%d-%m-%Y")
+X07_2018$Fecha <- as.Date("01-07-2018",format="%d-%m-%Y")
+X08_2018$Fecha <- as.Date("01-08-2018",format="%d-%m-%Y")
+X09_2018$Fecha <- as.Date("01-09-2018",format="%d-%m-%Y")
+X10_2018$Fecha <- as.Date("01-10-2018",format="%d-%m-%Y")
+X11_2018$Fecha <- as.Date("01-11-2018",format="%d-%m-%Y")
+
+```
+
+
+### Unir los datos mensulaes en un solo dataframe
+
+```{r}
+DS_Anual <- bind_rows(X01_2018,X02_2018,X03_2018,X04_2018,X05_2018,X06_2018,
+                      X07_2018,X08_2018,X09_2018,X10_2018,X11_2018)
+DS_Anual <- DS_Anual[,-(10:11)]
+head(DS_Anual)
+```
+
+### Grabar el dataframe como un archivo csv
+
+```{r}
+write.csv(DS_Anual,"DS_ANUAL.csv",row.names = FALSE)
+```
+
+## Problema 2
+
+Utilizando la función lapply, encuentre la moda de cada vector de una lista de por lo menos 3
+vectores.
+
+### Crear una lisa con vectores
+
+```{r}
+vector1 <- c(1,3,5,7,9,3,5,3,9)
+vector2 <- c(2,4,6,8,6,4,8,6,6)
+vector3 <- c(1,2,3,6,9,3,7,6,3)
+
+lista <- list(vector1,vector2,vector3)
+lista
+```
+
+### Utilizar lapply para obtener la moda
+
+```{r}
+moda <- function(x) {
+   return(as.numeric(names(which.max(table(x)))))
+}
+
+lapply(lista,moda)
+```
+
+## Problema 3
+
+Cargar el dataset de parque vehicular de enero 2019
+
+```{r}
+parque_vehicular <- read_delim(file = "INE_PARQUE_VEHICULAR_080219.txt")
+head(parque_vehicular)
+```
+
+
